@@ -2,12 +2,23 @@ import React from "react";
 import memesData from "../memesData"
 
 export default function Meme() {
-  const [image, setImage] = React.useState("")
+  // const [image, setImage] = React.useState("http://i.imgflip.com/1bij.jpg")
+  const [meme, setMeme] = React.useState({
+    topText: "",
+    bottomText: "",
+    randomImage: "http://i.imgflip.com/1bij.jpg"
+  })
+
+  const [allMemeImages, setAllMemeImages] = React.useState(memesData)
 
   function getMemeImage() {
-    const memes = memesData.data.memes
+    const memes = allMemeImages.data.memes
     const randomNumber = Math.floor(Math.random() * memes.length)
-    setImage(memes[randomNumber].url)
+    const url = memes[randomNumber].url
+    setMeme(prevMeme => ({
+      ...prevMeme,
+      randomImage: url
+    }))
   }
 
   return (
@@ -31,7 +42,7 @@ export default function Meme() {
         </button>
       </div>
       <div className="meme-image">
-        <img src={image} className="meme-image" />
+        <img src={meme.randomImage} className="meme-image" />
       </div>
     </div>
   )
